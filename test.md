@@ -87,6 +87,7 @@
 5.  Доработка существующего процесса отправки уведомлений (добавление вызова Telegram-функции).
 6.  Тестирование отправки.
 
+### 6. Схема работы без автоматической привязки
 
 ```mermaid
 sequenceDiagram
@@ -141,4 +142,66 @@ sequenceDiagram
     end
     
     Module->>RS: Завершение обработки
+```
+
+### 7. Схема с автоматической привязкой
+
+```mermaid
+sequenceDiagram
+    participant Клиент as Клиент (Пользователь)
+    participant TG as Telegram Bot API
+    participant HTTP as HTTP Сервис (1С) *Новый*
+    participant DB as База Данных 1С
+    participant Module as Модуль рассылки (1С)
+    participant Admin as Администратор
+
+    %% === ФАЗА 1: РЕГИСТРАЦИЯ (Как ChatID попадает в базу) ===
+    Note over Клиент,Admin: Этап 1. Привязка пользователя к боту
+    
+    Admin->>Admin: Создает бота у @BotFather
+    Admin->>DB: Вводит Токен бота в настройки 1С
+    
+    Admin->>Клиент: Отправляет ссылку (t.me/MyBot?start=CODE123)
+    
+    Клиент->>TG: Переходит по ссылке и нажимает /start CODE123
+    activate TG
+    
+    TG->>HTTP: Webhook / POST: Отправить обновление (Update)
+    Note over TG,HTTP: Telegram шлет JSON:<br>{ "message": { "chat": { "id": 789 }, "text": "/start CODE123" } }
+    activate HTTP
+    
+    HTTP->>HTTP: Парсит JSON, извлекает ChatID (789) и Код (CODE123)
+    HTTP->>DB: Запрос: Найти контакт по коду CODE123
+    DB-->>HTTP: Контактное лицо "Иван Петров"
+    
+    HTTP->>DB: Запись: Сохранить ChatID = 789 в реквизит контакта
+    Note over HTTP,DB: Связка "Клиент - Telegram ID" сохранена
+    
+    HTTP-->>TG: HTTP 200 OK (Подтверждение получения)
+    deactivate HTTP
+    
+    TG->>Клиент: Отправляет приветствие: "Вы подписаны на уведомления!"
+    deactivate TG
+
+    %% === ФАЗА 2: ОТПРАВКА УВЕДОМЛЕНИЯ ===
+    Note over Клиент,Admin: Этап 2. Ежедневная рассылка (Регламентное задание)
+    
+    Module->>DB: Запрос: Найти клиентов с истекающими лицензиями
+    DB-->>Module: Список клиентов
+    
+    loop Каждый клиент
+        Module->>DB: Запрос: Получить TelegramChatID и Email
+        DB-->>Module: ChatID = 789, Email = ivan@mail.com
+        
+        alt Если ChatID заполнен
+            Module->>Module: Сформировать текст для Telegram
+            Module->>TG: POST /sendMessage (chat_id=789, text="Лицензия истекает...")
+            activate TG
+            TG-->>Module: HTTP 200 OK (Подтверждение отправки)
+            deactivate TG
+            TG->>Клиент: Доставка сообщения
+        end
+        
+        Module->>Module: Отправка Email (существующая логика)
+    end
 ```
