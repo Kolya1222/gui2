@@ -1,0 +1,57 @@
+# Лабараторная работа 2
+
+**Задание 1.** Написать калькулятор с НЕБОЛЬШИМИ БАГАМИ
+
+```python
+def calculator():
+    print("Добро пожаловать в калькулятор!")
+    print("Доступные операции: +, -, *, /")
+    print("Для выхода введите 'exit'")
+
+    while True:
+        # Получаем ввод от пользователя
+        user_input = input("\nВведите выражение (например, 5 + 3): ")
+
+        # Проверка на выход
+        if user_input.lower() == 'exit':
+            print("До свидания!")
+            break
+
+        try:
+            # Разделяем ввод на части
+            parts = user_input.split()
+            if len(parts) != 3:
+                print("Ошибка: введите выражение в формате 'число операция число'")
+                continue
+
+            num1 = float(parts[0])
+            operator = parts[1]
+            num2 = float(parts[2])
+
+            # Выполняем операцию
+            if operator == '+':
+                result = num1 + num2
+            elif operator == '-':
+                result = num1 - num2
+            elif operator == '*':
+                result = num1 * num2
+            elif operator == '/':
+                if num2 == 0:
+                    print("Ошибка: деление на ноль невозможно!")
+                    continue
+                result = num1 / num2
+            else:
+                print("Ошибка: неподдерживаемая операция. Используйте +, -, * или /")
+                continue
+
+            # Выводим результат
+            print(f"Результат: {num1} {operator} {num2} = {result}")
+
+        except ValueError:
+            print("Ошибка: пожалуйста, введите корректные числа")
+        except Exception as e:
+            print(f"Произошла ошибка: {e}")
+
+# Запускаем калькулятор
+calculator()
+```
