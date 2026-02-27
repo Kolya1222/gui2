@@ -58,8 +58,7 @@ calculator()
 
 ## Фото калькулятора
 
-[[2026-02-27_18-13-49.png|ALT TEXT]](https://github.com/Kolya1222/gui2/blob/main/2026-02-27_18-13-49.png)
-<img src="https://github.com/Kolya1222/gui2/blob/main/2026-02-27_18-13-49.png" alt="Схема системы" width="500">
+<img src="https://github.com/Kolya1222/gui2/blob/main/2026-02-27_18-13-49.png" alt="Схема системы">
 
 ## Таблица к заданию 1 (задание 2)
 
