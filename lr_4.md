@@ -4,24 +4,22 @@
 graph LR
     Root((Табурет))
 
-    Beta[Beta Testing] --> Root
-    Auto[Automated Testing] --> Root
-    Val[Validation] --> Root
-    Ver[Verification] --> Root
-    Sec[Security Testing] --> Root
-    Neg[Negative Testing] --> Root
-    Stress[Stress Testing] --> Root
-    Doc[Documentation Testing] --> Root
-    UI[UI Testing] --> Root
-    Entry[Entry Point Testing] --> Root
+    Beta[Бета тестирование] --> Root
+    Auto[Автоматические тесты] --> Root
+    Val[Валидация] --> Root
+    Ver[Верификация] --> Root
+    Sec[Тестирование защиты] --> Root
+    Neg[Обратные/негативное тестирование] --> Root
+    Stress[Экстремальное тестирование] --> Root
+    Doc[Тестирование документации] --> Root
+    UI[Тестирование пользователького опыта] --> Root
+    Entry[Входное тестирование] --> Root
 
-    Root --> BB[Black Box Testing]
-    Root --> Func[Functional Testing]
-    Root --> Usab[Usability Testing]
-    Root --> Comp[Compatibility Testing]
-    Root --> Perf[Performance Testing]
-    Root --> CompT[Component Testing]
-    Root --> Integ[Integration Testing]
+    Root --> BB[Тестирование черный ящик]
+    Root --> Func[Функциональное тестирование]
+    Root --> Comp[Тестирование совместимости]
+    Root --> Perf[Тетсирование производительности]
+    Root --> CompT[Компонентное тестирование]
 
     B1[Отдать соседям на праздник] --> Beta
     B2[Детская крепость или подставка] --> Beta
@@ -66,10 +64,6 @@ graph LR
     Func --> F3[Ножки одной длины?]
     Func --> F4[Можно мыть водой?]
     
-    Usab --> Us1[Удобно переносить?]
-    Usab --> Us2[Разные ягодицы?]
-    Usab --> Us3[Вес для пожилых?]
-    
     Comp --> C1[Не царапает паркет?]
     Comp --> C2[Не скользит по плитке?]
     Comp --> C3[Задвигается под стол?]
@@ -81,9 +75,6 @@ graph LR
     
     CompT --> CT1[Надежность каждой ножки]
     CompT --> CT2[Прочность сиденья]
-    
-    Integ --> I1[Люфт ножек в пазах?]
-    Integ --> I2[Плотность крепежа]
 
     linkStyle default interpolate basis stroke:#333,stroke-width:1px,marker-end:none;
     classDef default fill:#fff,stroke:#333,stroke-width:1px;
